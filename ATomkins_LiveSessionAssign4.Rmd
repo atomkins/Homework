@@ -1,0 +1,49 @@
+---
+title: "Doing Data Science - Assign 4"
+author: Aaron Tomkins
+output: html_document
+
+---
+
+# Question 1
+
+```{r question_1, echo=TRUE}
+
+library(fivethirtyeight)
+data(package = "fivethirtyeight")
+
+df <- college_recent_grads
+vignette("fivethirtyeight", package = "fivethirtyeight")
+
+# The related news story to the above data set is:
+# http://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/
+
+dim(df)
+names(df)
+
+```
+
+# Question 2
+
+```{r question_2, echo=TRUE}
+
+names(df) # column names
+length(names(df)) # number of columns
+
+major_count <- as.data.frame(table(df$major_category))
+names(major_count) <- c("Major Category", "Frequency")
+
+par(las=2)
+barplot(table(df$major_category), beside = TRUE, horiz = TRUE, main = "Majors in Category", xlab =
+          "Count of Majors in Category", ylab = "Category", col = "Blue")
+
+write.csv(major_count, file = "major_count.csv")
+```
+
+# Question 3
+
+The GitHub page for this homework is located at:
+https://github.com/atomkins/Homework
+
+
+

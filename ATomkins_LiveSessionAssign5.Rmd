@@ -1,0 +1,104 @@
+---
+title: "ATomkins_LiveSessionAssign5"
+author: Aaron Tomkins
+output: html_document
+---
+
+The assignment is located at: https://github.com/atomkins/Homework
+
+# Question 1
+
+```{r, echo=TRUE}
+
+# Part a
+library(tidyr)
+df <- read.table("/Users/aarontomkins/Desktop/SMU_Data_Science/MSDS_6306_Doing_Data_Science/Data_Files/yob2016.txt")
+# The below uses a tidyr function to separate the one column into three columns.
+df <- separate(df, col = V1, into = c("Name","Gender","Count"), sep = ";")
+df$Count <- as.numeric(df$Count) # transform Count column to numeric
+
+# Part b
+summary(df)
+str(df)
+
+# Part c
+grep("yyy", df$Name, value = TRUE)
+
+# Part d
+which(df$Name=="Fionayyy")
+y2016 <- df[-212,]
+
+```
+
+# Question 2
+
+```{r, echo=TRUE}
+
+# Part a
+y2015 <- read.table("/Users/aarontomkins/Desktop/SMU_Data_Science/MSDS_6306_Doing_Data_Science/Data_Files/yob2015.txt")
+y2015 <- separate(y2015, col = V1, into = c("Name","Gender","Count"), sep = ",")
+y2015$Count <- as.numeric(y2015$Count)
+
+# Part b
+tail(y2015, 10)
+# It's interesting that the last 10 rows above are all male names and all have a count of 5.
+
+# Part c
+final <- merge(y2015, y2016, by=c("Name","Gender"))
+names(final) <- c("Name","Gender","2016_Amt","2015_Amt")
+sum(is.na(final))
+
+```
+
+# Question 3
+
+```{r, echo=TRUE}
+
+# Part a
+final$Total <- final$`2016_Amt`+final$`2015_Amt`
+
+# Part b
+head(final[order(final$Total, decreasing = TRUE),], 10)
+
+```
+The 10 most popular names are:
+1. Emma
+2. Olivia
+3. Noah
+4. Liam
+5. Sophia
+6. Ava
+7. Mason
+8. William
+9. Jacob
+10. Isabella
+
+```{r, echo=TRUE}
+
+# Part c
+final_fem <- final[final$Gender=="F",]
+head(final_fem[order(final_fem$Total, decreasing = TRUE),], 10)
+
+```
+The 10 most popular girls names are:
+1. Emma
+2. Olivia
+3. Sophia
+4. Ava
+5. Isabella
+6. Mia
+7. Charlotte
+8. Abigail
+9. Emily
+10. Harper
+```{r, echo=TRUE}
+
+# Part d
+final_fem <- final[final$Gender=="F",]
+list <- head(final_fem[order(final_fem$Total, decreasing = TRUE),], 10)
+final_list <- list[,c(1,5)]
+write.csv(final_list, "final_list")
+
+```
+
+The assignment is located at: https://github.com/atomkins/Homework
